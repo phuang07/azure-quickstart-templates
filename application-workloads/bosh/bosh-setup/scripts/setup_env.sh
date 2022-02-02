@@ -44,7 +44,8 @@ retryop "apt-get install apt-transport-https"
 retryop "apt-get update && apt-get install azure-cli=2.0.33-1~$AZ_REPO"
 
 echo "Creating the containers (bosh and stemcell) and the table (stemcells) in the default storage account"
-default_storage_account=$(get_setting DEFAULT_STORAGE_ACCOUNT_NAME)
+# default_storage_account=$(get_setting DEFAULT_STORAGE_ACCOUNT_NAME)
+default_storage_account=ph53test
 default_storage_access_key=$(get_setting DEFAULT_STORAGE_ACCESS_KEY)
 endpoint_suffix=$(get_setting SERVICE_HOST_BASE)
 connection_string="DefaultEndpointsProtocol=https;AccountName=${default_storage_account};AccountKey=${default_storage_access_key};EndpointSuffix=${endpoint_suffix}"
@@ -170,7 +171,7 @@ if [ "$environment" = "AzureChinaCloud" ]; then
 EOF
 elif [ "$environment" = "AzureStack" ]; then
   cat >> "$home_dir/deploy_bosh.sh" << EOF
-  -v storage_account_name=$(get_setting DEFAULT_STORAGE_ACCOUNT_NAME) \\
+  -v storage_account_name=ph53test \\
   -o ~/example_manifests/azure-stack-properties.yml \\
   -v azure_stack_domain=$(get_setting AZURE_STACK_DOMAIN) \\
   -v azure_stack_resource=$(get_setting AZURE_STACK_RESOURCE) \\
@@ -283,7 +284,7 @@ cat >> "$home_dir/deploy_cloud_foundry.sh" << EOF
   -v resource_directory_key=cc-resources \\
   -o ~/example_manifests/use-azure-storage-blobstore.yml \\
   -v environment=$(get_setting ENVIRONMENT) \\
-  -v blobstore_storage_account_name=$(get_setting DEFAULT_STORAGE_ACCOUNT_NAME) \\
+  -v blobstore_storage_account_name=ph53test \\
   -v blobstore_storage_access_key=$(get_setting DEFAULT_STORAGE_ACCESS_KEY) \\
 EOF
 if [ "$environment" = "AzureStack" ]; then
